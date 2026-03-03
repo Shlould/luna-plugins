@@ -118,7 +118,25 @@ async function processLyrics(
 
 async function handleTranslate() {
     if (!currentLyrics) {
-        trace.msg.log('No lyrics available to translate');
+        // 1. Lo registramos como un error en la consola en lugar de un log normal
+        trace.msg.err('No lyrics available to translate');
+
+        // 2. Mostramos una alerta emergente en la pantalla
+        alert('Error: No hay letras disponibles para traducir en este momento.');
+
+        // 3. (Opcional pero recomendado) Cambiamos el texto del botón visualmente por 2 segundos
+        const btn = document.querySelector('.translate-button') as HTMLButtonElement;
+        if (btn) {
+            const originalText = btn.innerText;
+            btn.innerText = "❌ No lyrics found";
+            btn.style.backgroundColor = "#ff4c4c"; // Cambiamos el fondo a un tono rojo (opcional)
+            
+            setTimeout(() => { 
+                btn.innerText = originalText; 
+                btn.style.backgroundColor = ""; // Restauramos el color original
+            }, 2000);
+        }
+        
         return;
     }
 
